@@ -1,2 +1,2 @@
-
- -Initial release.
+-Added a slider to control the accident chance.
+-Added the version number in the settings.

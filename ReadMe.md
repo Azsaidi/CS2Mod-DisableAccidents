@@ -14,8 +14,9 @@ By default, the mod is **not activated** when first installed. To enable it:
 3. Locate **Disable Accidents** in the list of installed mods.
 4. Toggle the mod **ON** to activate it.
 5. Once enabled, traffic accidents will no longer occur in the game.
+6. You can adjust the **Accident Chance** slider to control how often accidents occur. Set it to **0%** to completely disable accidents, or adjust it to your preference (e.g., 50% for half the normal rate). The default setting is **100%**, which means accidents will occur as per the game's original design.
 
-To **disable the mod**, simply toggle it **OFF** in the same menu, and the game will resume its default behavior where accidents can occur normally.
+To **disable the mod**, simply toggle it **OFF** in the same menu or set the slider to 100%, and the game will resume its default behavior where accidents can occur normally.
 
 ### **Savegame Compatibility and Mod Removal**
 This mod is completely safe to use and does not affect savegame data. You can enable or disable it at any time without corrupting your saves. If you decide to remove the mod, your game will revert to its standard traffic accident behavior without any issues.

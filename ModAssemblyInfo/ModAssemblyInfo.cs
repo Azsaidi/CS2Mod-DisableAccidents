@@ -10,7 +10,7 @@ namespace DisableAccidents
     public class ModAssemblyInfo
     {
         public const string Name        = "DisableAccidents";
-        public const string Version     = "1.0.0";
+        public const string Version     = "1.1.0";
         public const string Title       = "Disable Accidents";
         public const string Description = "A simple mod to disable traffic accidents";
     }

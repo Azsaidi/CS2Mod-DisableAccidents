@@ -15,7 +15,7 @@ namespace DisableAccidents
 
         public void OnLoad(UpdateSystem updateSystem)
         {
-            LogUtil.Info("Onload");
+            LogUtil.Info("OnLoad");
 
             m_Setting = new Setting(this);
             m_Setting.RegisterInOptionsUI();
@@ -25,7 +25,6 @@ namespace DisableAccidents
 
             updateSystem.UpdateAt<NoTrafficAccidentsSystem>(SystemUpdatePhase.ModificationEnd);
             updateSystem.UpdateAt<InitialSettingsApplySystem>(SystemUpdatePhase.ModificationEnd);
-
         }
 
         public void OnDispose()
@@ -52,7 +51,10 @@ namespace DisableAccidents
             if (Setting.Instance != null)
             {
                 var accidentSystem = EntityManager.World.GetOrCreateSystemManaged<NoTrafficAccidentsSystem>();
-                accidentSystem.ForceUpdate(Setting.Instance.ModEnabled);
+                accidentSystem.ForceUpdate(
+                    Setting.Instance.ModEnabled,
+                    Setting.Instance.ModEnabled ? 0f : (Setting.Instance.AccidentProbability / 100f)
+                );
                 this.Enabled = false;
             }
         }
@@ -62,7 +64,7 @@ namespace DisableAccidents
     {
         private EntityQuery m_AccidentPrefabQuery;
         private bool m_LastEnabledState;
-
+        private float m_LastProbability;
 
         protected override void OnCreate()
         {
@@ -77,46 +79,47 @@ namespace DisableAccidents
             RequireForUpdate(m_AccidentPrefabQuery);
         }
 
-        public void ForceUpdate(bool currentEnabled)
+        public void ForceUpdate(bool currentEnabled, float probability)
         {
             m_LastEnabledState = currentEnabled;
-            UpdateAccidentProbabilities(currentEnabled);
+            m_LastProbability = probability;
+            UpdateAccidentProbabilities(currentEnabled, probability);
         }
 
         protected override void OnUpdate()
         {
             bool currentEnabled = Setting.Instance?.ModEnabled ?? false;
+            float currentProbability = currentEnabled ? 0f : (Setting.Instance?.AccidentProbability ?? 100) / 100f;
 
-            if (currentEnabled != m_LastEnabledState)
+            if (currentEnabled != m_LastEnabledState || currentProbability != m_LastProbability)
             {
                 m_LastEnabledState = currentEnabled;
-                UpdateAccidentProbabilities(currentEnabled);
+                m_LastProbability = currentProbability;
+                UpdateAccidentProbabilities(currentEnabled, currentProbability);
             }
         }
 
-        private void UpdateAccidentProbabilities(bool disableAccidents)
+        private void UpdateAccidentProbabilities(bool disableAccidents, float probability)
         {
-            LogUtil.Info($"Setting accident probabilities to {(disableAccidents ? "0" : "1")}");
+            LogUtil.Info($"Setting accident probabilities to {(disableAccidents ? "0" : probability.ToString())}");
             var accidentPrefabs = m_AccidentPrefabQuery.ToEntityArray(World.UpdateAllocator.ToAllocator);
             foreach (var prefab in accidentPrefabs)
             {
                 if (EntityManager.HasComponent<TrafficAccidentData>(prefab))
                 {
                     var accidentData = EntityManager.GetComponentData<TrafficAccidentData>(prefab);
-                    float oldProbability = accidentData.m_OccurenceProbability;
-
-                    accidentData.m_OccurenceProbability = disableAccidents ? 0f : 1f;
+                    accidentData.m_OccurenceProbability = disableAccidents ? 0f : probability;
                     EntityManager.SetComponentData(prefab, accidentData);
                 }
             }
         }
-        protected override void OnGameLoadingComplete(Purpose purpose, GameMode mode )
+
+        protected override void OnGameLoadingComplete(Purpose purpose, GameMode mode)
         {
             base.OnGameLoadingComplete(purpose, mode);
             bool currentEnabled = Setting.Instance?.ModEnabled ?? false;
-            ForceUpdate(currentEnabled);
+            float currentProbability = currentEnabled ? 0f : (Setting.Instance?.AccidentProbability ?? 100) / 100f;
+            ForceUpdate(currentEnabled, currentProbability);
         }
-
-     
     }
 }

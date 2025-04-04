@@ -9,7 +9,7 @@
 		<PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
 		<LangVersion>9</LangVersion>
 		<Title>Disable Accidents</Title>
-		<Version>1.0.0</Version>
+		<Version>1.1.0</Version>
 		<Description>A simple mod to disable traffic accidents</Description>
 		<Copyright>Copyright © 2025</Copyright>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
