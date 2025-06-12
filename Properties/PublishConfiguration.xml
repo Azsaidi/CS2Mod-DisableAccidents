@@ -57,7 +57,7 @@ Enjoy your accident-free roads!
     <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/disable-accidents.1733879/" />
 
     <!-- Version of the mod.  Copied from assembly Version. -->
-    <ModVersion Value="1.1.0" />
+    <ModVersion Value="1.1.1" />
 
     <!-- Recommended version of the base game to use the mod. -->
     <GameVersion Value="1.*" />
@@ -71,8 +71,7 @@ Enjoy your accident-free roads!
 
     <!-- Change log.  Copied from ChangeLog.md file.  Supports minimal markdown subset. -->
     <ChangeLog>
--Added a slider to control the accident chance.
--Added the version number in the settings.
+- Compatibility with 1.3.3f1
 </ChangeLog>
 
     <!-- External links. Supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab, gofundme.  Can be set multiple times. -->

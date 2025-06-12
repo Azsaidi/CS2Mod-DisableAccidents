@@ -1,2 +1,1 @@
--Added a slider to control the accident chance.
--Added the version number in the settings.
+- Compatibility with 1.3.3f1
